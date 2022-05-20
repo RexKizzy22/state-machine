@@ -1,4 +1,4 @@
-namespace InvalidStates
+namespace Banking
 
 // To open an account, a customer must provide two forms of identification
 

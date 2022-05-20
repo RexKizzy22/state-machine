@@ -1,3 +1,5 @@
+namespace Banking
+
 module DependencyInjection =
 
     type Application = Application

@@ -1,24 +1,30 @@
-[<Measure>] type foot
-[<Measure>] type inch
+namespace Banking 
 
-//conversion factor
-let inchesPerFoot = 12.0<inch/foot>    
+module Dimension = 
 
-// test    
-let distanceInFeet = 3.0<foot>    
-let distanceInInches = distanceInFeet * inchesPerFoot
+    [<Measure>] type foot
+    [<Measure>] type inch
 
-[<Measure>] type degC
-[<Measure>] type degF
+    //conversion factor
+    let inchesPerFoot = 12.0<inch/foot>    
 
-let convertDegCToF c = 
-    c * 1.8<degF/degC> + 32.0<degF>
+    // test    
+    let distanceInFeet = 3.0<foot>    
+    let distanceInInches = distanceInFeet * inchesPerFoot
 
-// test    
-let f = convertDegCToF 0.0<degC>
+module Temperature = 
 
-let badConvertDegCToF c = 
-    c * 1.8<degF/degC> + 32.0
+    [<Measure>] type degC
+    [<Measure>] type degF
+
+    let convertDegCToF c = 
+        c * 1.8<degF/degC> + 32.0<degF>
+
+    // test    
+    let f = convertDegCToF 0.0<degC>
+
+    let badConvertDegCToF c = 
+        c * 1.8<degF/degC> + 32.0
 
 module UnitOfMeasure =
 
