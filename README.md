@@ -6,7 +6,7 @@ different domains. Concepts captures include:
 - Domain modelling with algebraic data types.
 - Making illegal states unrepresentable.
 - Partial application.
-- Actor model of concurrency using the MailboxProcessorb.
+- Actor model of concurrency using the MailboxProcessor.
 - Railway-oriented programming
 - Unit testing with NUnit
 
