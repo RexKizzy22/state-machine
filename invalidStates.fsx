@@ -4,7 +4,6 @@ namespace Banking
 
 // Compiler does not check if two similar ids can open an account
 module InvalidStates = 
-
     type CheckingAccount = CheckingAccount
 
     type Identification = 
@@ -35,7 +34,6 @@ module InvalidStatesTest =
 
 // Invalid states are made unrepresentable
 module ValidStates =
-
     type CheckingAccount = CheckingAccount
 
     type Identification = 
@@ -64,7 +62,6 @@ module ValidStates =
 
 
 module ValidStatesTest = 
-
     open ValidStates
 
     let goodIds = makeTwoIds (DriverLicense "abc") (Passport "123") 

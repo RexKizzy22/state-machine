@@ -1,129 +1,174 @@
-namespace Game
-
 // ************ Model *************** //
+type Details = { Name: string; Description: string }
 
-type Details = 
-    { Name: string
-        Description: string }
-
-type Item = 
-    { Details: Details }
+type Item = { Details: Details }
 
 type RoomId = RoomId of string
 
-type Exit = 
-    | PassableExit of Details * destination: RoomId 
-    | LockedExit of Details * key: Item * next: Exit 
+type Exit =
+    | PassableExit of Details * destination: RoomId
+    | LockedExit of Details * key: Item * next: Exit
     | NoExit of Exit option
 
-and Room = 
+and Room =
     { Id: RoomId
-    Details: Details
-    Items: Details list 
-    Exits: Exits }
+      Details: Details
+      Items: Details list
+      Exits: Exits }
 
-and Exits = 
-    { North: Exit 
-    South: Exit  
-    East: Exit 
-    West: Exit }
+and Exits =
+    { North: Exit
+      South: Exit
+      East: Exit
+      West: Exit }
 
-type Player = 
+type Player =
     { Details: Details
-    Location: RoomId
-    Inventory: Item list }
+      Location: RoomId
+      Inventory: Item list }
 
-type World = 
+type World =
     { Rooms: Map<RoomId, Room>
-    Player: Player }
+      Player: Player }
 
 
-module FunctionalGame = 
-
+module FunctionalGame =
     // **************** Initial World *************** //
-
-    let firstRoom = 
-        { Details = "First room"
-        Items = [] 
-        Exits: 
+    let firstRoom =
+        { Id = RoomId "first"
+          Details =
+            { Name = "First room"
+              Description = "This is the first room" }
+          Items = []
+          Exits =
             { North = NoExit None
-            South = NoExit None
-            East = NoExit None
-            West = NoExit None }}
+              South = NoExit None
+              East = NoExit None
+              West = NoExit None } }
 
-    let key: Item = 
+    let key: Item =
         { Details =
             { Name = "A shiny key"
-                Description = "This key looks like it could open a nearby door."} }
+              Description = "This key looks like it could open a nearby door." } }
 
-    let allRooms = [
-        
-        { Id = RoomId "center"
-                Details = 
-                    { Name = "A central room"
-                        Description = "You are standing in a central room with exits in all directions.  A single brazier lights the room."}
-                Items = []
-                Exits =
-                    { North = PassableExit ("You see a darkened passageway to the north.", RoomId "north1")
-                        South = PassableExit ("You see door to the south.  A waft of cold air hits your face.", RoomId "south1")
-                        East = LockedExit ("You see a locked door to the east.", key, PassableExit ("You see an open door to the east.", RoomId "east1"))
-                        West = PassableExit ("You see an interesting room to the west.", RoomId "west1") }}
-
-        { Id = RoomId "north1"
-                Details = 
-                    { Name = "A dark room"
-                        Description = "You are standing in a very dark room.  You hear the faint sound of rats scurrying along the floor."}
-                Items = []
-                Exits =
-                    { North = NoExit None
-                        South = PassableExit ("You see an dimly lit room to the south.", RoomId "center")
-                        East = NoExit None
-                        West = NoExit None }}
-
-        { Id = RoomId "south1"
-                Details = 
-                    { Name = "A cold room"
-                        Description = "You are standing in a room that feels very cold.  Your breath instantly turns into a white puff."}
-                Items = []
-                Exits =
-                    { North = PassableExit ("You see an exit to the north.  That room looks much warmer.", RoomId "center")
-                        South = NoExit None
-                        East = NoExit None
-                        West = NoExit None }}
-
-        { Id = RoomId "west1"
-        Details = 
-            { Name = "A cozy room"
-                Description = "This room seems very cozy, as if someone had made a home here.  Various personal belongings are strewn about."}
-        Items = [ key ]
-        Exits =
-            { North = NoExit None
-                South = NoExit None
-                East = PassableExit ("You see a doorway back to the lit room.", RoomId "center")
-                West = NoExit None }}
-
-        { Id = RoomId "east1"
-        Details = 
-            { Name = "An open meadow"
-                Description = "You are in an open meadow.  The sun is bright and it takes some time for your eyes to adjust."}
-        Items = []
-        Exits =
-            { North = NoExit None
+    let allRooms =
+        [ { Id = RoomId "center"
+            Details =
+              { Name = "A central room"
+                Description =
+                  "You are standing in a central room with exits in all directions.  
+                            A single brazier lights the room." }
+            Items = []
+            Exits =
+              { North =
+                  PassableExit(
+                      { Name = "North"
+                        Description = "You see a darkened passageway to the north." },
+                      RoomId "north1"
+                  )
+                South =
+                  PassableExit(
+                      { Name = "South"
+                        Description = "You see door to the south.  A waft of cold air hits your face." },
+                      RoomId "south1"
+                  )
+                East =
+                  LockedExit(
+                      { Name = "East"
+                        Description = "You see a locked door to the east." },
+                      key,
+                      PassableExit(
+                          { Name = "West"
+                            Description = "You see an open door to the east." },
+                          RoomId "east1"
+                      )
+                  )
+                West =
+                  PassableExit(
+                      { Name = "West2"
+                        Description = "You see an interesting room to the west." },
+                      RoomId "west1"
+                  ) } }
+          { Id = RoomId "north1"
+            Details =
+              { Name = "A dark room"
+                Description =
+                  "You are standing in a very dark room.  
+                            You hear the faint sound of rats scurrying along the floor." }
+            Items = []
+            Exits =
+              { North = NoExit None
+                South =
+                  PassableExit(
+                      { Name = "North"
+                        Description = "You see an dimly lit room to the south." },
+                      RoomId "center"
+                  )
+                East = NoExit None
+                West = NoExit None } }
+          { Id = RoomId "south1"
+            Details =
+              { Name = "A cold room"
+                Description =
+                  "You are standing in a room that feels very cold.  
+                            Your breath instantly turns into a white puff." }
+            Items = []
+            Exits =
+              { North =
+                  PassableExit(
+                      { Name = "North"
+                        Description = "You see an exit to the north. That room looks much warmer." },
+                      RoomId "center"
+                  )
                 South = NoExit None
                 East = NoExit None
-                West = PassableExit ("You see stone doorway to the west.  Why would you want to go back there?", RoomId "center") }}
-    ]
+                West = NoExit None } }
+          { Id = RoomId "west1"
+            Details =
+              { Name = "A cozy room"
+                Description =
+                  "This room seems very cozy, as if someone had made a home here.  
+                            Various personal belongings are strewn about." }
+            Items = []
+            Exits =
+              { North = NoExit None
+                South = NoExit None
+                East =
+                  PassableExit(
+                      { Name = "Cents"
+                        Description = "You see a doorway back to the lit room." },
+                      RoomId "center"
+                  )
+                West = NoExit None } }
+          { Id = RoomId "east1"
+            Details =
+              { Name = "An open meadow"
+                Description =
+                  "You are in an open meadow.  
+                            The sun is bright and it takes some time for your eyes to adjust." }
+            Items = []
+            Exits =
+              { North = NoExit None
+                South = NoExit None
+                East = NoExit None
+                West =
+                  PassableExit(
+                      { Name = "Track"
+                        Description =
+                          "You see stone doorway to the west.  
+                                            Why would you want to go back there?" },
+                      RoomId "center"
+                  ) } } ]
 
     let player =
-        { Details = { Name = "Luke"; Description = "Just your average adventurer."}
+        { Details =
+            { Name = "Luke"
+              Description = "Just your average adventurer." }
           Inventory = []
           Location = RoomId "center" }
 
     let gameWorld =
-        { Rooms =
-            allRooms
-            |> Seq.map (fun room -> (room.Id, room))
-            |> Map.ofSeq
+        { Rooms = allRooms |> Seq.map (fun room -> (room.Id, room)) |> Map.ofSeq
           Player = player }
 
 
@@ -132,19 +177,17 @@ module FunctionalGame =
 
     // Custom Result
     // type Result<'TSuccess, 'TFailure> =
-    // | Success of 'TSuccess
-    // | Failure of 'TFailure
+    //     | Success of 'TSuccess
+    //     | Failure of 'TFailure
 
     let bind processFunc lastResult =
         match lastResult with
         | Ok s -> processFunc s
         | Error f -> Error f
 
-    let (>>=) x f =
-        bind f x
+    let (>>=) x f = bind f x
 
-    let switch processFunc input =
-        Ok (processFunc input)
+    let switch processFunc input = Ok(processFunc input)
 
     let getRoom world roomId =
         match world.Rooms.TryFind roomId with
@@ -154,8 +197,7 @@ module FunctionalGame =
     let describeDetails details =
         sprintf "\n\n%s\n\n%s\n\n" details.Name details.Description
 
-    let extractDetailsFromRoom (room: Room) =
-        room.Details
+    let extractDetailsFromRoom (room: Room) = room.Details
 
     let describeCurrentRoom world =
         world.Player.Location
@@ -173,24 +215,22 @@ module FunctionalGame =
     let east exits = exits.East
     let west exits = exits.West
 
-    let getCurrentRoom world =
-        world.Player.Location
-        |> getRoom world
+    let getCurrentRoom world = world.Player.Location |> getRoom world
 
     let setCurrentRoom world room =
         { world with
-            Player = { world.Player with Location = room.Id} }
+            Player = { world.Player with Location = room.Id } }
 
     let getExit direction exits =
         match (direction exits) with
-        | PassableExit (_, roomId) -> Ok roomId
-        | LockedExit (_, _, _) -> Error "There is a locked door in that direction."
-        | NoExit (_) -> Error "There is no room in that direction."
+        | PassableExit(_, roomId) -> Ok roomId
+        | LockedExit(_, _, _) -> Error "There is a locked door in that direction."
+        | NoExit(_) -> Error "There is no room in that direction."
 
     let move direction world =
         world
         |> getCurrentRoom
-        >>= switch (fun room -> room.Exits) 
+        >>= switch (fun room -> room.Exits)
         >>= getExit direction
         >>= getRoom world
         >>= switch (setCurrentRoom world)
@@ -208,7 +248,7 @@ module FunctionalGame =
     |> displayResult
 
 
-   // ******** Concurrent Event Loop for the Game Engine ******** //
+    // ******** Concurrent Event Loop for the Game Engine ******** //
 
     type GameEvent =
         | UpdateState of (World -> Result<World, string>)
@@ -230,50 +270,47 @@ module FunctionalGame =
                 let rec innerLoop worldState =
                     async {
                         let! eventMsg = inbox.Receive()
+
                         match eventMsg with
-                        | UpdateState updateFunc -> 
-                            return! innerLoop (applyUpdate updateFunc worldState)
-                        | ResetState newState -> 
-                            return! innerLoop newState
+                        | UpdateState updateFunc -> return! innerLoop (applyUpdate updateFunc worldState)
+                        | ResetState newState -> return! innerLoop newState
                         | EndGameLoop -> return ()
                     }
-                    
+
                 innerLoop initialState)
 
-        member this.ApplyUpdate(updateFunc) =
-            gameLoop.Post(UpdateState updateFunc)
+        member this.ApplyUpdate(updateFunc) = gameLoop.Post(UpdateState updateFunc)
 
-        member this.ResetState(newState) =
-            gameLoop.Post(ResetState newState)
+        member this.ResetState(newState) = gameLoop.Post(ResetState newState)
 
-        member this.Stop() =
-            gameLoop.Post(EndGameLoop)
+        member this.Stop() = gameLoop.Post(EndGameLoop)
 
     let gameEngine = GameEngine(gameWorld)
     gameEngine.ApplyUpdate(move south)
 
     let rand = System.Random()
+
     let playerController =
         MailboxProcessor.Start(fun inbox ->
             let rec innerLoop state =
                 async {
                     try
                         let! eventMsg = inbox.Receive(2000)
-                        if eventMsg = "Stop" then return ()
-                    with
-                    | :? System.TimeoutException -> 
-                        ["north", north
-                        "south", south
-                        "east", east
-                        "west", west]
+
+                        if eventMsg = "Stop" then
+                            return ()
+                    with :? System.TimeoutException ->
+                        [ "north", north; "south", south; "east", east; "west", west ]
                         |> List.item (rand.Next 4)
-                        |> fun (dir, dirFunc) -> printfn "Wandering %s..." dir; dirFunc
+                        |> fun (dir, dirFunc) ->
+                            printfn "Wandering %s..." dir
+                            dirFunc
                         |> move
                         |> gameEngine.ApplyUpdate
 
                         do! innerLoop state
                 }
-            
+
             innerLoop 0)
 
     gameEngine.ResetState(gameWorld)
@@ -281,11 +318,10 @@ module FunctionalGame =
     playerController.Post("Stop")
 
 
+// *********************** Command Parsing ********************* //
 
-
-// *********************** Command Parsing ********************* // 
-
-module CommandParser = 
+module CommandParser =
+    open FunctionalGame
 
     type Parser<'a> = Parser of (char list -> Result<'a * char list, string>)
 
@@ -296,67 +332,60 @@ module CommandParser =
     let expectChar expectedChar =
         let innerParser inputChars =
             match inputChars with
-            | c :: remainingChars -> 
-                if c = expectedChar then Success (c, remainingChars)
-                else Failure (sprintf "Expected '%c', got '%c'" expectedChar c)
-            | [] ->
-                Failure (sprintf "Expected '%c', reached end of input" expectedChar)
-        
+            | c :: remainingChars ->
+                if c = expectedChar then
+                    Ok(c, remainingChars)
+                else
+                    Error(sprintf "Expected '%c', got '%c'" expectedChar c)
+            | [] -> Error(sprintf "Expected '%c', reached end of input" expectedChar)
+
         Parser innerParser
 
-    let stringToCharList str =
-        List.ofSeq str
+    let stringToCharList str = List.ofSeq str
 
     let orParse parser1 parser2 =
         let innerParser inputChars =
             match runParser parser1 inputChars with
-            | Success result -> Success result
-            | Failure _ -> runParser parser2 inputChars
+            | Ok result -> Ok result
+            | Error _ -> runParser parser2 inputChars
 
         Parser innerParser
 
-    let ( <|> ) = orParse
+    let (<|>) = orParse
 
-    let choice parserList =
-        List.reduce orParse parserList
+    let choice parserList = List.reduce orParse parserList
 
     let anyCharOf validChars =
-        validChars
-        |> List.map expectChar
-        |> choice
+        validChars |> List.map expectChar |> choice
 
     let andParse parser1 parser2 =
         let innerParser inputChars =
             match runParser parser1 inputChars with
-            | Failure msg -> Failure msg
-            | Success (c1, remaining1) ->
+            | Error msg -> Error msg
+            | Ok(c1, remaining1) ->
                 match runParser parser2 remaining1 with
-                | Failure msg -> Failure msg
-                | Success (c2, remaining2) ->
-                    Success ((c1, c2), remaining2)
+                | Error msg -> Error msg
+                | Ok(c2, remaining2) -> Ok((c1, c2), remaining2)
 
         Parser innerParser
 
-    let ( .>>. ) = andParse
+    let (.>>.) = andParse
 
     let mapParser mapFunc parser =
         let innerParser inputChars =
             match runParser parser inputChars with
-            | Failure msg -> Failure msg
-            | Success (result, remaining) ->
-                Success (mapFunc result, remaining)
+            | Error msg -> Error msg
+            | Ok(result, remaining) -> Ok(mapFunc result, remaining)
 
         Parser innerParser
 
     let applyParser funcAsParser paramAsParser =
-        (funcAsParser .>>. paramAsParser)
-        |> mapParser (fun (f, x) -> f x)
+        (funcAsParser .>>. paramAsParser) |> mapParser (fun (f, x) -> f x)
 
-    let ( <*> ) = applyParser
+    let (<*>) = applyParser
 
     let returnAsParser result =
-        let innerParser inputChars =
-            Success (result, inputChars)
+        let innerParser inputChars = Ok(result, inputChars)
 
         Parser innerParser
 
@@ -369,11 +398,9 @@ module CommandParser =
 
         match parserList with
         | [] -> returnAsParser []
-        | parser :: remainingParsers ->
-            consAsParser parser (sequenceParsers remainingParsers)
+        | parser :: remainingParsers -> consAsParser parser (sequenceParsers remainingParsers)
 
-    let charListAsString chars =
-        System.String(List.toArray chars)
+    let charListAsString chars = System.String(List.toArray chars)
 
     let expectString expectedString =
         expectedString
@@ -385,4 +412,3 @@ module CommandParser =
     stringToCharList "take"
     |> runParser (expectString "lake" <|> expectString "take")
     |> printfn "%A"
-

@@ -1,5 +1,16 @@
 namespace StateMachine 
 
+(*
+    Conditions where state machines are beneficial
+    - You have a set of mutually exclusive states with transitions between them.
+    - The transitions are triggered by external events.
+    - The states are exhaustive. That is, there are no other choices and 
+        you must always handle all cases.
+    - Each state might have associated data that should not be accessible when 
+        the system is in another state.
+    - There are static business rules that apply to the states.
+*)
+
 module Automobile =
     // state machines define rules that control how states change.
     // Given a current state X, a state machine will define what states X can change to 
