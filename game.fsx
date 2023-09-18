@@ -318,7 +318,7 @@ module FunctionalGame =
     playerController.Post("Stop")
 
 
-// *********************** Command Parsing ********************* //
+// ************** Command Parsing * Text-based Recursive Decent Parser ***************** //
 
 module CommandParser =
     open FunctionalGame
