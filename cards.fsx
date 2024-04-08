@@ -79,7 +79,7 @@ module CardTest =
         let actual = rem |> ShuffledDeckSize
 
         // Assert
-        Assert.AreEqual(expected, actual, "There were not 51 cards in the deck, after dealing")
+        Assert.That(expected, Is.EqualTo actual, "There were not 51 cards in the deck, after dealing")
 
     [<Test>]
     let ``should return 0 cards when dealing with a card from a depleted deck``() = 
@@ -92,5 +92,5 @@ module CardTest =
         let actual = rem |> ShuffledDeckSize
 
         // Assert
-        Assert.AreEqual(expected, actual, "")
+        Assert.That(expected, Is.EqualTo actual, "")
 
