@@ -74,7 +74,7 @@ let rec reduceLeft f acc xs =
     | [] -> acc
     | x::xs' -> reduceLeft f (f x acc) xs'
 
-// fold implemented to start folding from the right
+// foldBack polyfill implemented to start folding from the right
 let reduceRight f acc xs = 
     let reversed = List.rev xs
     let rec reduce f acc revd = 
@@ -113,10 +113,6 @@ let rec trueOfAllContants predicate exp =
     | Multiply(expr1, expr2) -> 
         trueOfAllContants predicate expr1 && 
         trueOfAllContants predicate expr2
-
-type tree<'a, 'b> = 
-    | Node of 'a * tree<'a, 'b>
-    | Leaf of 'b
 
 let inline sumFold input = 
     (0, input)

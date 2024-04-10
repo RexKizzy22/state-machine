@@ -9,12 +9,18 @@ namespace Disk
 *)
 
 
-// reference type
+// Modelling a Disk using a reference type Enum
 // type DiskType = HardDisk = 0 | MMC = 1 | SSD = 2
 
-// value type
+// Modelling a Disk using a value type Enum
 [<Struct>]
 type DiskType = HardDisk = 0 | MMC = 1 | SSD = 2
+
+// Modelling a Disk using a Discriminated Union
+type Disk =
+        | HardDisk of rpm:int * platters:int
+        | MMC of pins:int
+        | SSD
 
 
 module DiskOption =
@@ -26,11 +32,6 @@ module DiskOption =
             Platters : int option
             NumberOfPins : int option 
         }
-
-        type Disk =
-        | HardDisk of rpm:int * platters:int
-        | MMC of pins:int
-        | SSD
 
     let seekRecord disk =
         match disk with

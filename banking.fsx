@@ -46,17 +46,13 @@ module DependencyInjection =
         elif not (ids |> validateIds) then None 
         else Some CheckingAccount
 
-module InvalidStates = 
-
-    let openCheckingAccount (ids: TwoIds) =
-
-        let Ids (id1, id2) = ids
-        // check whether id1 and id2 are valid
-        CheckingAccount 
 
 module InvalidStatesTest =
 
-    open InvalidStates
+    let openCheckingAccount (ids: TwoIds) =
+        let Ids (id1, id2) = ids
+        // check whether id1 and id2 are valid
+        CheckingAccount 
 
     let goodIds = Ids (DriverLicense "abc", Passport "123") 
     let badIds = Ids (DriverLicense "abc", DriverLicense "123") 
@@ -66,8 +62,7 @@ module InvalidStatesTest =
 
 
 // Invalid states are made unrepresentable
-module ValidStates =
-
+module ValidStatesTest = 
     type TwoIds =
         private
         | Ids of Identification * Identification
@@ -85,10 +80,6 @@ module ValidStates =
         | (MilitaryId _), (MilitaryId _)
         | (Passport _), (Passport _) -> None  
         | _ -> (id1,id2) |> Ids |> Some
-
-
-module ValidStatesTest = 
-    open ValidStates
 
     let goodIds = makeTwoIds (DriverLicense "abc") (Passport "123") 
     let account1 = openCheckingAccount goodIds.Value

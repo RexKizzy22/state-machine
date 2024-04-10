@@ -82,6 +82,10 @@ let rec qsort input =
 
 open System.IO
 
+// type Tree<'a, 'b> = 
+//     | Node of 'a * tree<'a, 'b>
+//     | Leaf of 'b
+
 type Tree<'T> =
     | Branch of 'T * Tree<'T> seq
     | Leaf of 'T

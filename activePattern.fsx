@@ -37,7 +37,6 @@ let (|CorrectResult|_|) (expected:Score, actual:Score) =
     | _ -> None
 
 // Partial Active Pattern
-
 // let (|CorrectResult|_|) (expected:Score, actual:Score) =
 //     match (expected, actual) with
 //     | ((h, a), (h', a')) when h = a && h' = a' -> Some ()
