@@ -13,7 +13,7 @@ different domains. Concepts captured include:
 - Active Patterns
 
 
-# How to Run Scripts
+## How to Run Scripts
 
 1. The only prerequisite to run scripts in this repository is to have the [.NET SDK](https://dotnet.microsoft.com/en-us/download) installed
 
