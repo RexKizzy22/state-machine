@@ -1,3 +1,14 @@
+(*
+    Demonstrating the use of F# interface construct with the following problems:
+    - Specification and implementation of Fizzbuzz
+    - Specification and implementation of a Recently Used List
+    - Blueprint for comparing the equality 2 co-ordinates data structure
+
+    We approaches these problems by using concrete class implementations and object expressions implementations
+*)
+
+// Fizzbuzz without the specification
+
 // type FizzBuzz(mapping) = 
 //         let calculate n =
 //             mapping
@@ -10,10 +21,12 @@
 type IFizzBuzz =
     abstract member Calculate : int -> string
 
+// Fizzbuzz with the specification
 type FizzBuzz(mapping) = 
     let calculate n =
         mapping
-        |> List.map (fun (v, s) -> if n % v = 0 then s else "") |> List.reduce (+)
+        |> List.map (fun (v, s) -> if n % v = 0 then s else "") 
+        |> List.reduce (+)
         |> fun s -> if s <> "" then s else string n
     
     interface IFizzBuzz with
@@ -28,6 +41,9 @@ let doFizzBuzz =
     [1..15]
     |> List.map (fun n -> (fizzBuzz :> IFizzBuzz).Calculate(n))
 
+
+
+// Recently Used Lists
 
 type IRecentlyUsedList =
     abstract member IsEmpty : bool
@@ -71,7 +87,8 @@ mrul.TryGet(0) = Some "Test" // Should return true
 mrul.TryGet(4) = Some "Test3" // Should return true
 
 
-// Equality
+
+// Blueprint for comparing the equality 2 co-ordinates data structure
 open System
 
 type Coordinate(latitude: float, longitude: float) = 

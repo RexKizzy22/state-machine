@@ -25,8 +25,8 @@ module Cards =
     // making illegal state unrepresentable
     let createDeal (deck: ShuffledDeck) = 
         match deck with 
-        | (ShuffledDeck (first::rest)) -> Some first, ShuffledDeck rest
-        | (ShuffledDeck ([])) -> None, ShuffledDeck []
+        | ShuffledDeck (first::rest) -> Some first, ShuffledDeck rest
+        | ShuffledDeck ([]) -> None, ShuffledDeck []
 
     let dealCard: Deal = createDeal
 

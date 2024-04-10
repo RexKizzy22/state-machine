@@ -75,8 +75,10 @@ let rec qsort input =
 
 
 
-// Episode 2.1 of the Trustbit Transport Tycoon challenge:
-// https://github.com/trustbit/exercises/blob/master/transport-tycoon_21.md
+(*
+    Episode 2.1 of the Trustbit Transport Tycoon challenge:
+    https://github.com/trustbit/exercises/blob/master/transport-tycoon_21.md
+*)
 
 open System.IO
 

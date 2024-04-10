@@ -86,7 +86,8 @@ module Automobile =
             AllowedEvents = 
                 newEvents 
                 |> Array.map (fun e -> 
-                    let f() = stateMachine e 
+                    // delay evaluation of recursive call
+                    let f () = stateMachine e 
                     {
                         EventInfo = e 
                         RaiseEvent = f

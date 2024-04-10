@@ -1,3 +1,7 @@
+(*
+  Analysis of the results of football matches.
+*)
+
 type FootballResult =
     { HomeTeam : string
       AwayTeam : string

@@ -79,7 +79,7 @@ module Comibinator =
         else Success input
 
     let validate2 input =
-        if input.name.Length > 50 then Failure "Name must not be longer than 50 chars"
+        if (input.name |> String.length) > 50 then Failure "Name must not be longer than 50 chars"
         else Success input
 
     let validate3 input =

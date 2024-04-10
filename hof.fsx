@@ -1,3 +1,11 @@
+(*
+    Demonstrates the following functional programming idioms:
+    - The use of custom higher order functions
+    - The use of built-in higher order functions functions
+    - The use of partial function applications and currying
+*)
+
+
 let drive distance petrol = 
     if distance > 50 then petrol / 2.0
     elif distance > 25 then petrol - 10.0
@@ -64,7 +72,7 @@ let rec filter f xs =
 let rec reduceLeft f acc xs = 
     match xs with
     | [] -> acc
-    | x::xs' -> reduceLeft f (f acc) xs'
+    | x::xs' -> reduceLeft f (f x acc) xs'
 
 // fold implemented to start folding from the right
 let reduceRight f acc xs = 
@@ -72,7 +80,7 @@ let reduceRight f acc xs =
     let rec reduce f acc revd = 
         match revd with
         | [] -> acc 
-        | x::xs' -> reduce f (f acc) revd
+        | x::xs' -> reduce f (f x acc) xs'
     reduce f acc reversed
 
 // execute f, n times
@@ -110,7 +118,7 @@ type tree<'a, 'b> =
     | Node of 'a * tree<'a, 'b>
     | Leaf of 'b
 
-let inline sumFold (input) = 
+let inline sumFold input = 
     (0, input)
     |> Seq.fold (+)
 
@@ -118,5 +126,5 @@ let inline sumFold (input) =
 [1..10]
 |> Seq.reduce (+)
 
-// [1..10]
-// |> List.scan (+)
+[1..10]
+|> List.scan (+) 0
