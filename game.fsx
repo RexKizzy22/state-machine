@@ -342,10 +342,10 @@ module CommandParser =
             match inputChars with
             | c :: remainingChars ->
                 if c = expectedChar then
-                    Ok (c, remainingChars)
+                    Ok(c, remainingChars)
                 else
-                    Error (sprintf "Expected '%c', got '%c'" expectedChar c)
-            | [] -> Error (sprintf "Expected '%c', reached end of input" expectedChar)
+                    Error(sprintf "Expected '%c', got '%c'" expectedChar c)
+            | [] -> Error(sprintf "Expected '%c', reached end of input" expectedChar)
 
         Parser innerParser
 
@@ -370,10 +370,10 @@ module CommandParser =
         let innerParser inputChars =
             match runParser parser1 inputChars with
             | Error msg -> Error msg
-            | Ok (c1, remaining1) ->
+            | Ok(c1, remaining1) ->
                 match runParser parser2 remaining1 with
                 | Error msg -> Error msg
-                | Ok (c2, remaining2) -> Ok ((c1, c2), remaining2)
+                | Ok(c2, remaining2) -> Ok((c1, c2), remaining2)
 
         Parser innerParser
 
@@ -383,7 +383,7 @@ module CommandParser =
         let innerParser inputChars =
             match runParser parser inputChars with
             | Error msg -> Error msg
-            | Ok (result, remaining) -> Ok (mapFunc result, remaining)
+            | Ok(result, remaining) -> Ok(mapFunc result, remaining)
 
         Parser innerParser
 
@@ -393,7 +393,7 @@ module CommandParser =
     let (<*>) = applyParser
 
     let returnAsParser result =
-        let innerParser inputChars = Ok (result, inputChars)
+        let innerParser inputChars = Ok(result, inputChars)
 
         Parser innerParser
 

@@ -3,14 +3,17 @@
 *)
 
 type FootballResult =
-    { HomeTeam : string
-      AwayTeam : string
-      HomeGoals : int
-      AwayGoals : int }
+    { HomeTeam: string
+      AwayTeam: string
+      HomeGoals: int
+      AwayGoals: int }
 
 /// Helper function to create a result
 let createResult (ht, hg) (at, ag) =
-    { HomeTeam = ht; AwayTeam = at; HomeGoals = hg; AwayGoals = ag }
+    { HomeTeam = ht
+      AwayTeam = at
+      HomeGoals = hg
+      AwayGoals = ag }
 
 let results =
     [ createResult ("Juventus", 1) ("Chelsea", 2)
@@ -27,9 +30,9 @@ results
 |> List.head
 |> fst
 
-let winner = 
-  results
-  |> List.filter (fun x -> x.AwayGoals > x.HomeGoals)
-  |> List.maxBy (fun x -> x.AwayGoals)
+let winner =
+    results
+    |> List.filter (fun x -> x.AwayGoals > x.HomeGoals)
+    |> List.maxBy (fun x -> x.AwayGoals)
 
 winner.AwayTeam

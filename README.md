@@ -1,4 +1,4 @@
-# State Machine  
+# State Machine
 
 A documentation of idiomatic F# code capturing several major F# constructs in
 different domains. Concepts captured include:
@@ -12,7 +12,6 @@ different domains. Concepts captured include:
 - Combinators
 - Active Patterns
 
-
 ## How to Run Scripts
 
 1. The only prerequisite to run scripts in this repository is to have the [.NET SDK](https://dotnet.microsoft.com/en-us/download) installed
@@ -21,8 +20,6 @@ different domains. Concepts captured include:
    ```bash
     dotnet fsi <name-of-script>.fsx
    ```
-3. Optionally, you can run a block of code by highlighting the code block and pressing ```ALT + return``` keys.
+3. Optionally, you can run a block of code by highlighting the code block and pressing `ALT + return` keys.
 
-4. You can also run a line of code by placing the cursor on the line of the code and pressing ```ALT + /``` keys.
-
-
+4. You can also run a line of code by placing the cursor on the line of the code and pressing `ALT + /` keys.
