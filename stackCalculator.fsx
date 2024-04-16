@@ -1,3 +1,12 @@
+(*
+    A stack based calculator used to calculate the sum of the first n natural numbers, n(n + 1)/2.
+    - n represents the number of terms (or the highest number) in the series.
+    - (n+1) represents the next number after n.
+    - Multiplying n by (n+1) gives the product of the two consecutive numbers.
+    - Dividing the product by 2 gives the sum of the numbers
+*)
+
+
 // ==============================================
 // Types
 // ==============================================

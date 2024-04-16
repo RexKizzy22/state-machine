@@ -1,3 +1,12 @@
+(*
+    A showcase of recursion in F# using the following problems:
+    - Factorial
+    - Fibonacci
+    - Fizzbuzz
+    - Quicksort algorithm
+    - The Trustbit Transport Tycoon challenge
+*)
+
 // Factorial
 let rec fact1 n =
     match n with
