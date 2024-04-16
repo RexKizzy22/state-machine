@@ -1,11 +1,11 @@
 // Factorial
-// let rec fact n =
-//     match n with
-//     | 1 -> 1
-//     | n -> n * fact (n-1)
+let rec fact1 n =
+    match n with
+    | 1 -> 1
+    | n -> n * fact1 (n - 1)
 
 // Tail call optimized
-let fact n =
+let fact2 n =
     let rec loop n acc =
         match n with
         | 1 -> acc
@@ -15,14 +15,14 @@ let fact n =
 
 
 // Fibonacci sequence
-// let rec fib (n:int64) =
-//     match n with
-//     | 0L -> 0L
-//     | 1L -> 1L
-//     | s -> fib (s-1L) + fib (s-2L)
+let rec fib1 (n: int64) =
+    match n with
+    | 0L -> 0L
+    | 1L -> 1L
+    | s -> fib1 (s - 1L) + fib1 (s - 2L)
 
 // Tail call optimized
-let fib (n: int64) =
+let fib2 (n: int64) =
     let rec loop n (a, b) =
         match n with
         | 0L -> a
@@ -35,7 +35,7 @@ let fib (n: int64) =
 // Fizzbuzz tail call optimized
 let mapping = [ (3, "Fizz"); (5, "Buzz") ]
 
-let fizzBuzz initialMapping n =
+let fizzBuzz1 initialMapping n =
     let rec loop mapping acc =
         match mapping with
         | [] -> if acc = "" then string n else acc
@@ -45,25 +45,26 @@ let fizzBuzz initialMapping n =
 
     loop initialMapping ""
 
-[ 1..105 ] |> List.map (fizzBuzz mapping) |> List.iter (printfn "%s")
+[ 1..105 ] |> List.map (fizzBuzz1 mapping) |> List.iter (printfn "%s")
 
 
 // Using List.fold
-// let fizzBuzz n =
-//     [ (3, "Fizz"); (5, "Buzz") ]
-//     |> List.fold (fun acc (div, msg) ->
-//         if n % div = 0 then acc + msg else acc) "" |> fun s -> if s = "" then string n else s
+let fizzBuzz2 n =
+    [ (3, "Fizz"); (5, "Buzz") ]
+    |> List.fold (fun acc (div, msg) -> if n % div = 0 then acc + msg else acc) ""
+    |> fun s -> if s = "" then string n else s
 
-// [1..105]
-// |> List.iter (fizzBuzz >> printfn "%s")
+[ 1..105 ] |> List.iter (fizzBuzz2 >> printfn "%s")
 
 // Fizzbuzz with List.fold refactored
-// let fizzBuzz n =
-//     [ (3, "Fizz"); (5, "Buzz") ]
-//     |> List.fold (fun acc (div, msg) ->
-//         match (if n % div = 0 then msg else "") with
-//         | "" -> acc
-//         | s -> if acc = string n then s else acc + s) (string n)
+let fizzBuzz3 n =
+    [ (3, "Fizz"); (5, "Buzz") ]
+    |> List.fold
+        (fun acc (div, msg) ->
+            match (if n % div = 0 then msg else "") with
+            | "" -> acc
+            | s -> if acc = string n then s else acc + s)
+        (string n)
 
 
 // Quicksort algorithm
@@ -83,6 +84,9 @@ let rec qsort input =
     https://github.com/trustbit/exercises/blob/master/transport-tycoon_21.md
 *)
 
+
+// ************** Run Point 1 ****************
+
 open System.IO
 
 // type Tree<'a, 'b> =
@@ -93,6 +97,7 @@ type Tree<'T> =
     | Branch of 'T * Tree<'T> seq
     | Leaf of 'T
 
+// Holds data loaded from the csv file
 type Connection =
     { Start: string
       Finish: string
@@ -117,11 +122,18 @@ let loadData path =
     |> List.groupBy (fun cn -> cn.Start)
     |> Map.ofList
 
-// let run start finish =
-//     Path.Combine(__SOURCE_DIRECTORY__, "resources", "data.csv") |> loadData
-//     |> printfn "%A"
-// let result = run "Cogburg" "Leverstorm"
+let run1 start finish =
+    Path.Combine(__SOURCE_DIRECTORY__, "resources", "data.csv")
+    |> loadData
+    |> printfn "%A"
 
+let result1 = run1 "Cogburg" "Leverstorm"
+
+
+// ************** Run Point 2 ****************
+
+
+// represents information of where we are, how we got here and how much distance we have covered to get here
 type Waypoint =
     { Location: string
       Route: string list
@@ -135,27 +147,44 @@ let getUnvisited connections current =
           Route = cn.Start :: current.Route
           TotalDistance = cn.Distance + current.TotalDistance })
 
-// let findPossibleRoutes start finish (routeMap:Map<string, Connection list>) =
-//     let rec loop current =
-//         let nextRoutes = getUnvisited routeMap[current.Location] current
-//         if nextRoutes |> List.isEmpty |> not && current.Location <> finish then
-//             Branch (current, seq { for next in nextRoutes do loop next })
-//         else
-//             Leaf current
-//     loop { Location = start; Route = []; TotalDistance = 0 }
+let findPossibleRoutes1 start finish (routeMap: Map<string, Connection list>) =
+    let rec loop current =
+        let nextRoutes = getUnvisited routeMap[current.Location] current
 
-// let run start finish =
-//     Path.Combine(__SOURCE_DIRECTORY__, "resources", "data.csv") |> loadData
-//     |> findPossibleRoutes start finish
-//     |> printfn "%A"
-// let result = run "Cogburg" "Leverstorm"
+        if nextRoutes |> List.isEmpty |> not && current.Location <> finish then
+            Branch(
+                current,
+                seq {
+                    for next in nextRoutes do
+                        loop next
+                }
+            )
+        else
+            Leaf current
+
+    loop
+        { Location = start
+          Route = []
+          TotalDistance = 0 }
+
+let run2 start finish =
+    Path.Combine(__SOURCE_DIRECTORY__, "resources", "data.csv")
+    |> loadData
+    |> findPossibleRoutes1 start finish
+    |> printfn "%A"
+
+let result2 = run2 "Cogburg" "Leverstorm"
+
+
+// ************** Run Point 3 ****************
+
 
 let rec treeToList tree =
     match tree with
     | Leaf x -> [ x ]
     | Branch(_, xs) -> List.collect treeToList (xs |> Seq.toList)
 
-let findPossibleRoutes start finish (routeMap: Map<string, Connection list>) =
+let findPossibleRoutes2 start finish (routeMap: Map<string, Connection list>) =
     let rec loop current =
         let nextRoutes = getUnvisited routeMap[current.Location] current
 
@@ -182,11 +211,11 @@ let selectShortestRoute routes =
     |> List.minBy (fun wp -> wp.TotalDistance)
     |> fun wp -> wp.Location :: wp.Route |> List.rev, wp.TotalDistance
 
-let run start finish =
+let run3 start finish =
     Path.Combine(__SOURCE_DIRECTORY__, "resources", "data.csv")
     |> loadData
-    |> findPossibleRoutes start finish
+    |> findPossibleRoutes2 start finish
     |> selectShortestRoute
     |> printfn "%A"
 
-let result = run "Cogburg" "Leverstorm"
+let result3 = run3 "Cogburg" "Leverstorm"
