@@ -76,7 +76,7 @@ let fizzBuzz3 n =
         (string n)
 
 
-// Quicksort algorithm
+// Quick Sort algorithm
 let rec qsort input =
     match input with
     | [] -> []
@@ -85,6 +85,47 @@ let rec qsort input =
         List.concat [ qsort smaller; [ head ]; qsort larger ]
 
 [ 5; 9; 5; 2; 7; 9; 1; 1; 3; 5 ] |> qsort |> printfn "%A"
+
+// let rec quicksort lst =
+//     match lst with
+//     | [] -> []
+//     | pivot :: rest ->
+//         let smallerOrEqual = List.filter (fun x -> x <= pivot) rest
+//         let larger = List.filter (fun x -> x > pivot) rest
+//         quicksort smallerOrEqual @ [ pivot ] @ quicksort larger
+
+// Merge Sort Algorithm
+let rec mergeSort lst =
+    let rec merge left right =
+        match left, right with
+        | [], _ -> right
+        | _, [] -> left
+        | x :: xs, y :: ys -> if x < y then x :: merge xs right else y :: merge left ys
+
+    match lst with
+    | []
+    | [ _ ] -> lst
+    | _ ->
+        let mid = List.length lst / 2
+        let left = mergeSort (List.take mid lst)
+        let right = mergeSort (List.skip mid lst)
+        merge left right
+
+
+// Binary Search
+let rec binarySearch lst target =
+    match lst with
+    | [] -> false
+    | _ ->
+        let midIndex = List.length lst / 2
+        let midValue = List.item midIndex lst
+
+        if target = midValue then
+            true
+        elif target < midValue then
+            binarySearch (List.take midIndex lst) target
+        else
+            binarySearch (List.skip (midIndex + 1) lst) target
 
 
 
