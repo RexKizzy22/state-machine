@@ -59,7 +59,7 @@ module RailwayCombinatorModule =
         | Success _, Failure f2 -> Failure f2
         | Failure f1, Failure f2 -> Failure(addFailure f1 f2)
 
-module Comibinator =
+module Combinator =
 
     open RailwayCombinatorModule
 
@@ -88,11 +88,11 @@ module Comibinator =
 
     let log twoTrackInput =
         let success x =
-            printfn "DEBUG. Success so far: %A" x
+            printfn $"DEBUG. Success so far: %A{x}"
             x
 
         let failure x =
-            printfn "ERROR. %A" x
+            printfn $"ERROR. %A{x}"
             x
 
         doubleMap success failure twoTrackInput

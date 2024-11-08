@@ -4,7 +4,7 @@
     - Fibonacci
     - Fizzbuzz
     - Quicksort algorithm
-    - The Trustbit Transport Tycoon challenge
+    - The Trustbit Transport Tycoon challenge (https://github.com/trustbit/exercises/blob/master/transport-tycoon_21.md)
 *)
 
 // Factorial

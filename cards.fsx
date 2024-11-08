@@ -69,7 +69,7 @@ module Cards =
               for rank in allRanks do
                   Card(suit, rank) ]
 
-    printfn "%A" newDeck
+    printfn $"%A{newDeck}"
 
 
 

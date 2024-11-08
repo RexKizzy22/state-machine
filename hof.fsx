@@ -1,7 +1,7 @@
 (*
     Demonstrates the following functional programming idioms:
     - The use of custom higher order functions
-    - The use of built-in higher order functions functions
+    - The use of built-in higher order functions
     - The use of partial function applications and currying
 *)
 
@@ -68,20 +68,15 @@ let rec filter f xs =
 // fold polyfill
 let rec reduceLeft f acc xs =
     match xs with
-    | [] -> acc
-    | x :: xs' -> reduceLeft f (f x acc) xs'
+        | [] -> acc
+        | x :: xs' -> reduceLeft f (f x acc) xs'
 
 // foldBack polyfill implemented to start folding from the right
-let reduceRight f acc xs =
-    let reversed = List.rev xs
-
-    let rec reduce f acc revd =
-        match revd with
+let rec reduceRight f acc xs =
+    match xs with
         | [] -> acc
-        | x :: xs' -> reduce f (f x acc) xs'
-
-    reduce f acc reversed
-
+        | x :: xs' -> f (reduceRight f acc xs') x
+            
 // execute f, n times
 let rec nTimes f n x =
     match n with
@@ -102,12 +97,12 @@ let rec eval e =
     | Add(e1, e2) -> (eval e1) + (eval e2)
     | Multiply(e1, e2) -> (eval e1) * (eval e2)
 
-let rec trueOfAllContants predicate exp =
+let rec trueOfAllConstants predicate exp =
     match exp with
     | Constant i -> predicate i
-    | Negate expr -> trueOfAllContants predicate expr
-    | Add(expr1, expr2) -> trueOfAllContants predicate expr1 && trueOfAllContants predicate expr2
-    | Multiply(expr1, expr2) -> trueOfAllContants predicate expr1 && trueOfAllContants predicate expr2
+    | Negate expr -> trueOfAllConstants predicate expr
+    | Add(expr1, expr2) -> trueOfAllConstants predicate expr1 && trueOfAllConstants predicate expr2
+    | Multiply(expr1, expr2) -> trueOfAllConstants predicate expr1 && trueOfAllConstants predicate expr2
 
 let inline sumFold input = (0, input) |> Seq.fold (+)
 

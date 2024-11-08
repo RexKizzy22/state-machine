@@ -204,7 +204,7 @@ module FunctionalGame =
         | None -> Error "Room does not exist!"
 
     let describeDetails details =
-        sprintf "\n\n%s\n\n%s\n\n" details.Name details.Description
+        $"\n\n%s{details.Name}\n\n%s{details.Description}\n\n"
 
     let extractDetailsFromRoom (room: Room) = room.Details
 
@@ -233,7 +233,7 @@ module FunctionalGame =
     let getExit direction exits =
         match (direction exits) with
         | PassableExit(_, roomId) -> Ok roomId
-        | LockedExit(_, _, _) -> Error "There is a locked door in that direction."
+        | LockedExit(_) -> Error "There is a locked door in that direction."
         | NoExit(_) -> Error "There is no room in that direction."
 
     let move direction world =
@@ -246,8 +246,8 @@ module FunctionalGame =
 
     let displayResult result =
         match result with
-        | Ok s -> printf "%s" s
-        | Error f -> printf "%s" f
+        | Ok s -> printf $"%s{s}"
+        | Error f -> printf $"%s{f}"
 
     gameWorld
     |> move south
@@ -270,7 +270,7 @@ module FunctionalGame =
             describeCurrentRoom newState |> displayResult
             newState
         | Error message ->
-            printfn "\n\n%s\n" message
+            printfn $"\n\n%s{message}\n"
             worldState
 
     type GameEngine(initialState: World) =
@@ -312,7 +312,7 @@ module FunctionalGame =
                         [ "north", north; "south", south; "east", east; "west", west ]
                         |> List.item (rand.Next 4)
                         |> fun (dir, dirFunc) ->
-                            printfn "Wandering %s..." dir
+                            printfn $"Wandering %s{dir}..."
                             dirFunc
                         |> move
                         |> gameEngine.ApplyUpdate
@@ -344,8 +344,8 @@ module CommandParser =
                 if c = expectedChar then
                     Ok(c, remainingChars)
                 else
-                    Error(sprintf "Expected '%c', got '%c'" expectedChar c)
-            | [] -> Error(sprintf "Expected '%c', reached end of input" expectedChar)
+                    Error $"Expected '%c{expectedChar}', got '%c{c}'"
+            | [] -> Error $"Expected '%c{expectedChar}', reached end of input"
 
         Parser innerParser
 

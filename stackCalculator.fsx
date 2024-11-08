@@ -56,7 +56,7 @@ let unary f stack =
 /// Pop and show the top value on the stack
 let SHOW stack =
     let x, _ = pop stack
-    printfn "The answer is %f" x
+    printfn $"The answer is %f{x}"
     stack // keep going with same stack
 
 /// Duplicate the top value on the stack

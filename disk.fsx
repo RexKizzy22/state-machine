@@ -47,7 +47,7 @@ module DiskOption =
         | { DiskType = DiskType.MMC
             RPM = _
             Platters = _
-            NumberOfPins = _ } -> printfn "Seeking quietly and slowly. This disk has %d pins!" disk.NumberOfPins.Value
+            NumberOfPins = _ } -> printfn $"Seeking quietly and slowly. This disk has %d{disk.NumberOfPins.Value} pins!"
         | { DiskType = DiskType.SSD
             RPM = _
             Platters = _
@@ -57,7 +57,7 @@ module DiskOption =
     let seek disk =
         match disk with
         | HardDisk(5400, 7) -> printfn "Seeking loudly and slowly!"
-        | MMC(pins) when pins = 5 -> printfn "Seeking quietly and slowly. This disk has %d pins!" pins
+        | MMC(pins) when pins = 5 -> printfn $"Seeking quietly and slowly. This disk has %d{pins} pins!"
         | SSD -> printfn "Seeking loudly but quickly!"
         | _ -> printfn "Already found it!"
 
@@ -83,7 +83,7 @@ module DiskUnion =
         match disk, rpm, platters, numberOfPins with
         | DiskType.HardDisk, 5400, _, 5 -> printfn "Seeking loudly and slowly!"
         | DiskType.HardDisk, _, 7, _ -> printfn "Seeking loudly but quickly!"
-        | DiskType.MMC, _, _, _ -> printfn "Seeking quietly and slowly. This disk has %d pins!" numberOfPins
+        | DiskType.MMC, _, _, _ -> printfn $"Seeking quietly and slowly. This disk has %d{numberOfPins} pins!"
         | DiskType.SSD, _, _, _ -> printfn "Already found it!"
         | _ -> printfn "Unknown disk"
 
@@ -100,7 +100,7 @@ module DiskUnion =
         | { DiskType = DiskType.MMC
             RPM = _
             Platters = _
-            NumberOfPins = _ } -> printfn "Seeking quietly and slowly. This disk has %d pins!" disk.NumberOfPins
+            NumberOfPins = _ } -> printfn $"Seeking quietly and slowly. This disk has %d{disk.NumberOfPins} pins!"
         | { DiskType = DiskType.SSD
             RPM = _
             Platters = _
